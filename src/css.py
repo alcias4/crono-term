@@ -2,7 +2,7 @@
 
 def css_style() -> str:
     return """
-    #main {
+    #crono {
         width: 100%;
         height: 100%;
     }   
@@ -17,7 +17,7 @@ def css_style() -> str:
 
     #btn_group {
         width: 100%;
-        height: 50%;
+        height: 50vh;
         background-tint:blue 10%;
         align: center top;
 
@@ -25,7 +25,7 @@ def css_style() -> str:
 
     #start {
         min-width: 10;
-        width: 50%;
+        width: 50vh;
         margin-right: 2;
         max-width: 30;
         background: #2b14d7ca;
