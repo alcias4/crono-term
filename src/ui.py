@@ -3,6 +3,8 @@ from textual.widgets import Button, Label, Digits, OptionList, option_list, Cont
 from textual.containers import Vertical, Horizontal
 import asyncio
 
+
+import voice.voice as vs
 #from pathlib import Path
 from css import css_style
 
@@ -105,6 +107,7 @@ class WinApp(App):
         if event.button.id == "start_temp":
             self.estado_cronometro_temp = True
             asyncio.create_task(self.iniciar_temporizador())
+
         if event.button.id == "stop_temp":
             self.estado_cronometro_temp = False
 
@@ -130,12 +133,15 @@ class WinApp(App):
         tiempo = self.cal_segundo(tiempo=segundo)
         while self.estado_cronometro_temp:
             self.text_title_temp.update(self.format_time(tiempo))
-            if tiempo == 0:
-                self.estado_cronometro_temp = False
-                self.notify("Se acabo el tiempo")
-                break
             await asyncio.sleep(1)
             tiempo -=1
+            if tiempo < 0:
+                self.estado_cronometro_temp = False
+                self.notify("Se acabo el tiempo")
+                vs.vouce_text("Se acabo el tiempo")
+                break
+
+
 
 
 

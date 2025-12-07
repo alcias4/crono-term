@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "pyinstaller>=6.17.0",
+    "pyttsx3>=2.99",
     "textual>=6.7.1",
 ]
