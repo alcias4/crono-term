@@ -3,18 +3,18 @@ from textual.widgets import Button, Label, Digits, OptionList, option_list, Cont
 from textual.containers import Vertical, Horizontal
 import asyncio
 
-from pathlib import Path
+#from pathlib import Path
 from css import css_style
 
 
 class WinApp(App):
 
-    ruta =  Path("../style/main.tcss")
+    # ruta =  Path("../style/main.tcss")
 
-  
-    CSS_PATH = ruta
-    
-    #CSS = css_style()
+
+    # CSS_PATH = ruta
+
+    CSS = css_style()
     estado_cronometro = False
     estado_cronometro_temp =  False
     tiempo_segundos = 0
@@ -26,7 +26,7 @@ class WinApp(App):
 
 
         self.input_temp = Input(placeholder="Ingresar tiempo", id="input_temp")
-        
+
 
         yield  Vertical(
             OptionList(
@@ -36,23 +36,25 @@ class WinApp(App):
             ),
             id="menu"
         )
-  
+
 
         with ContentSwitcher(initial="home", id="swithcer"):
             #Pantalla de inico
             with Vertical(id="home"):
                 yield Label("Pantalla de inicio")
-                            
 
-            yield Vertical(
-                self.text_title,
-                Horizontal(
-                    Button("Iniciar", id="start"),
-                    Button("Dentener", id="stop"),
-                    id="btn_group"
-                ),
-                id="crono"
-            )
+
+            with Vertical(id="crono"):
+                yield self.text_title
+                with Horizontal(id="btn_group"):
+                    yield Button("Iniciar", id="start")
+                    yield Button("Dentener", id="stop")
+                    yield Button("Resetear", id="rest_cronometro")
+
+
+
+
+
 
             with Vertical(id="temp"):
                 yield Label("Pantalla de temp")
@@ -60,7 +62,7 @@ class WinApp(App):
                     yield RadioButton("Horas", id="h")
                     yield RadioButton("minutos", id="m")
                     yield RadioButton("Segundo", id="s" , value=True)
-                
+
                 yield self.input_temp
                 yield self.text_title_temp
                 yield Horizontal(
@@ -68,8 +70,8 @@ class WinApp(App):
                     Button("Dentener", id="stop_temp"),
                     id="btn_group"
                 )
-                
-            
+
+
 
 
     def on_option_list_option_selected(self, event: OptionList.OptionSelected) -> None:
@@ -82,11 +84,11 @@ class WinApp(App):
 
         if opcion == "temp":
             self.query_one("#swithcer",ContentSwitcher).current =  opcion
-            
-            
 
 
-    
+
+
+
     async def on_button_pressed(self, event: Button.Pressed) -> None:
 
         if event.button.id == "start":
@@ -96,29 +98,33 @@ class WinApp(App):
         if event.button.id == "stop":
             self.estado_cronometro = False
 
+        if event.button.id == "rest_cronometro":
+            self.tiempo_segundos = 0
+            self.text_title.update(self.format_time(self.tiempo_segundos))
+
         if event.button.id == "start_temp":
             self.estado_cronometro_temp = True
             asyncio.create_task(self.iniciar_temporizador())
         if event.button.id == "stop_temp":
             self.estado_cronometro_temp = False
-            
-            
+
+
     def on_radio_set_changed(self, event: RadioSet.Changed) -> None:
         rb = event.pressed          # RadioButton que quedó activo
         self.unidad_tiempo = rb.id  # "h", "m" o "s"
-        
+
 
 
 
 
 
     async def iniciar_cronometro(self):
-       
+
         while self.estado_cronometro:
             await asyncio.sleep(1)
             self.tiempo_segundos += 1
             self.text_title.update(self.format_time(self.tiempo_segundos))
-    
+
     async def iniciar_temporizador(self):
         segundo = int(self.input_temp.value)
         tiempo = self.cal_segundo(tiempo=segundo)
@@ -129,12 +135,12 @@ class WinApp(App):
                 self.notify("Se acabo el tiempo")
                 break
             await asyncio.sleep(1)
-            tiempo -=1 
-            
+            tiempo -=1
 
-            
 
-        
+
+
+
     def format_time(self, tiempo: int)-> str:
 
         segundos_totales = tiempo
@@ -146,12 +152,12 @@ class WinApp(App):
 
         return text
 
-    
+
     def cal_segundo(self, tiempo: int) -> int:
 
         if self.unidad_tiempo == "h":
             return tiempo * 3600
         elif self.unidad_tiempo == "m":
             return tiempo * 60
-        
+
         return tiempo

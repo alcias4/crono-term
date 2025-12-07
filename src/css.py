@@ -2,10 +2,16 @@
 
 def css_style() -> str:
     return """
-    #crono {
+    Screen {
         width: 100%;
         height: 100%;
-    }   
+
+    }
+
+    #menu {
+        width:100%;
+        height: auto;
+    }
 
     #title {
         width: 100%;
@@ -17,30 +23,35 @@ def css_style() -> str:
 
     #btn_group {
         width: 100%;
-        height: 50vh;
+        height: 50%;
         background-tint:blue 10%;
         align: center top;
+        min-height: 10
 
     }
 
     #start {
         min-width: 10;
-        width: 50vh;
+        width: 20;
         margin-right: 2;
         max-width: 30;
         background: #2b14d7ca;
     }
 
-    #start:hover {
-        background: #120d3aca;
-    }
-
-    #stop {
+    #rest_cronometro {
         width: 20;
-        width: 50%;
         min-width: 10;
         max-width: 30;
         background: #DE1A58;
+        margin-right: 2;
+    }
+    #stop {
+
+        width: 20;
+        min-width: 10;
+        max-width: 30;
+        background: #DE1A58;
+        margin-right: 2;
 
     }
 
@@ -49,4 +60,7 @@ def css_style() -> str:
         text-style: bold;
     }
 
+    #temp {
+        min-height: 25
+    }
     """

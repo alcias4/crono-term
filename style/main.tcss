@@ -27,22 +27,26 @@ Screen {
 
 #start {
     min-width: 10;
-    width: 50%;
+    width: 20;
     margin-right: 2;
     max-width: 30;
     background: #2b14d7ca;
 }
 
-#start:hover {
-    background: #120d3aca;
-}
-
-#stop {
+#rest_cronometro {
     width: 20;
-    width: 50%;
     min-width: 10;
     max-width: 30;
     background: #DE1A58;
+    margin-right: 2;
+}
+#stop {
+
+    width: 20;
+    min-width: 10;
+    max-width: 30;
+    background: #DE1A58;
+    margin-right: 2;
 
 }
 
